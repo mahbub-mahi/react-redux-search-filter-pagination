@@ -12,6 +12,7 @@ function App() {
   const { data, loading } = useSelector((state) => state.Reducers);
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState("");
 
   const postPerPage = 8;
   const totalPosts = data.length;
@@ -21,9 +22,15 @@ function App() {
   const filterPosts = data.slice(indexOfFirstPost, indexOfLastPost);
 
   useEffect(() => {
-    console.log(data);
     dispatch(fetchData());
   }, [data.length]);
+
+  const handleChangeSearch = (e) => {
+    if (e.target.value.length > 0) {
+      setCurrentPage(1);
+    }
+    setSearch(e.target.value);
+  };
 
   return (
     <>
@@ -31,12 +38,18 @@ function App() {
         <Loader />
       ) : (
         <div className="container">
-          <Filter />
+          <Filter
+            search={search}
+            setSearch={setSearch}
+            onChange={handleChangeSearch}
+          />
           <div className="products-main">
             <div className="posts">
-              {filterPosts.map((post) => (
-                <ProductCard data={post} key={post.id} />
-              ))}
+              {filterPosts
+                .filter((post) => post.title.toLowerCase().includes(search))
+                .map((post) => (
+                  <ProductCard data={post} key={post.id} />
+                ))}
             </div>
           </div>
           <div>

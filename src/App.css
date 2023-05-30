@@ -10,3 +10,12 @@
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 20px;
 }
+@media only screen and (max-width: 700px) {
+  .products-main {
+    min-height: 700px;
+  }
+  .posts {
+    width: 90%;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

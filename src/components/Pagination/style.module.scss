@@ -1,3 +1,5 @@
+@use "../../utils/constants";
+
 .pagination-body {
   display: table; /* Allow the centering to work */
   margin: 30px auto;
@@ -5,14 +7,14 @@
     display: none;
   }
   .button-main {
-    background-color: rgb(209, 209, 243);
+    background-color: constants.$primary;
     border-radius: 5px;
-    border: 2px rgb(190, 190, 223) solid;
+    border: 2px constants.$border solid;
     padding: 5px 10px;
   }
   .active {
-    background-color: rgb(126, 126, 246);
-    border: 2px rgb(119, 119, 235) solid;
+    background-color: constants.$secondary;
+    border: 2px constants.$border-active solid;
     border-radius: 5px;
     padding: 5px 10px;
   }
