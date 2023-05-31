@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "./style.module.scss";
-import { useDispatch } from "react-redux";
-import { searchData } from "../../store/actions";
 
 const Filter = ({ search, onChange }) => {
   return (

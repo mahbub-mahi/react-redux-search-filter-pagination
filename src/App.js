@@ -1,70 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { fetchData } from "./api/mainData";
-import { useDispatch, useSelector } from "react-redux";
-import ProductCard from "./components/ProductCard";
-import Filter from "./components/Filter";
-import Loader from "./components/Loader";
-import Paginate from "./components/Pagination";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import HomePage from "./components/HomePage";
+import CardDetailsPage from "./components/CardDetailsPage";
+import Header from "./components/Common/Header";
+import Footer from "./components/Common/Footer";
+import PageNotFound from "./components/Common/PageNotFound";
+
 import "./App.css";
 
 function App() {
-  const dispatch = useDispatch();
-  const { data, loading } = useSelector((state) => state.Reducers);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [search, setSearch] = useState("");
-
-  const postPerPage = 8;
-  const totalPosts = data.length;
-
-  const indexOfLastPost = currentPage * postPerPage;
-  const indexOfFirstPost = indexOfLastPost - postPerPage;
-  const filterPosts = data.slice(indexOfFirstPost, indexOfLastPost);
-
-  useEffect(() => {
-    dispatch(fetchData());
-  }, [data.length]);
-
-  const handleChangeSearch = (e) => {
-    if (e.target.value.length > 0) {
-      setCurrentPage(1);
-    }
-    setSearch(e.target.value);
-  };
-
   return (
-    <>
-      {loading ? (
-        <Loader />
-      ) : (
+    <div className="app">
+      <Router>
+        <Header></Header>
         <div className="container">
-          <Filter
-            search={search}
-            setSearch={setSearch}
-            onChange={handleChangeSearch}
-          />
-          <div className="products-main">
-            <div className="posts">
-              {filterPosts
-                .filter((post) => post.title.toLowerCase().includes(search))
-                .map((post) => (
-                  <ProductCard data={post} key={post.id} />
-                ))}
-            </div>
-          </div>
-          <div>
-            {totalPosts > postPerPage && (
-              <Paginate
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                totalPosts={totalPosts}
-                postPerPage={postPerPage}
-              />
-            )}
-          </div>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/card/:ID" element={<CardDetailsPage />} />
+            <Route component={PageNotFound} />
+          </Routes>
         </div>
-      )}
-    </>
+        <Footer />
+      </Router>
+    </div>
   );
 }
 
